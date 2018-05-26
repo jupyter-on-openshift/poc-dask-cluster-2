@@ -96,6 +96,16 @@
                     }
                 },
                 {
+                    "kind": "ImageStream",
+                    "apiVersion": "v1",
+                    "metadata": {
+                        "name": "${APPLICATION_NAME}-hub-s2i",
+                        "labels": {
+                            "app": "${APPLICATION_NAME}"
+                        }
+                    }
+                },
+                {
                     "kind": "BuildConfig",
                     "apiVersion": "v1",
                     "metadata": {
@@ -251,7 +261,7 @@
                                             },
                                             {
                                                 "name": "JUPYTERHUB_DATABASE_HOST",
-                                                "value": "${APPLICATION_NAME}-db"
+                                                "value": "${APPLICATION_NAME}-database"
                                             }
                                         ]
                                     }
@@ -281,11 +291,15 @@
                                             },
                                             {
                                                 "name": "JUPYTERHUB_DATABASE_HOST",
-                                                "value": "${APPLICATION_NAME}-db"
+                                                "value": "${APPLICATION_NAME}-database"
                                             },
                                             {
                                                 "name": "JUPYTERHUB_COOKIE_SECRET",
                                                 "value": "${COOKIE_SECRET}"
+                                            },
+                                            {
+                                                "name": "DASK_SCHEDULER_ADDRESS",
+                                                "value": "${APPLICATION_NAME}-scheduler:8786"
                                             }
                                         ],
                                         "volumeMounts": [
@@ -368,7 +382,7 @@
                     "kind": "PersistentVolumeClaim",
                     "apiVersion": "v1",
                     "metadata": {
-                        "name": "${APPLICATION_NAME}-db",
+                        "name": "${APPLICATION_NAME}-database",
                         "labels": {
                             "app": "${APPLICATION_NAME}"
                         }
@@ -388,7 +402,7 @@
                     "apiVersion": "v1",
                     "kind": "DeploymentConfig",
                     "metadata": {
-                        "name": "${APPLICATION_NAME}-db",
+                        "name": "${APPLICATION_NAME}-database",
                         "labels": {
                             "app": "${APPLICATION_NAME}"
                         }
@@ -397,7 +411,7 @@
                         "replicas": 1,
                         "selector": {
                             "app": "${APPLICATION_NAME}",
-                            "deploymentconfig": "${APPLICATION_NAME}-db"
+                            "deploymentconfig": "${APPLICATION_NAME}-database"
                         },
                         "strategy": {
                             "type": "Recreate"
@@ -406,7 +420,7 @@
                             "metadata": {
                                 "labels": {
                                     "app": "${APPLICATION_NAME}",
-                                    "deploymentconfig": "${APPLICATION_NAME}-db"
+                                    "deploymentconfig": "${APPLICATION_NAME}-database"
                                 }
                             },
                             "spec": {
@@ -460,7 +474,7 @@
                                     {
                                         "name": "data",
                                         "persistentVolumeClaim": {
-                                            "claimName": "${APPLICATION_NAME}-db"
+                                            "claimName": "${APPLICATION_NAME}-database"
                                         }
                                     },
                                     {
@@ -498,7 +512,7 @@
                     "kind": "Service",
                     "apiVersion": "v1",
                     "metadata": {
-                        "name": "${APPLICATION_NAME}-db",
+                        "name": "${APPLICATION_NAME}-database",
                         "labels": {
                             "app": "${APPLICATION_NAME}"
                         }
@@ -514,7 +528,7 @@
                         ],
                         "selector": {
                             "app": "${APPLICATION_NAME}",
-                            "deploymentconfig": "${APPLICATION_NAME}-db"
+                            "deploymentconfig": "${APPLICATION_NAME}-database"
                         }
                     }
                 },
@@ -606,7 +620,7 @@
                         "source": {
                             "type": "Git",
                             "git": {
-                                "uri": "https://github.com/jupyter-on-openshift/poc-dask-cluster--2.git"
+                                "uri": "https://github.com/jupyter-on-openshift/poc-dask-cluster-2.git"
                             },
                             "contextDir": "notebook"
                         },
