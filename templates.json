@@ -300,6 +300,10 @@
                                             {
                                                 "name": "DASK_SCHEDULER_ADDRESS",
                                                 "value": "${APPLICATION_NAME}-scheduler:8786"
+                                            },
+                                            {
+                                                "name": "DASK_MONITOR_ADDRESS",
+                                                "value": "${APPLICATION_NAME}-scheduler:8787"
                                             }
                                         ],
                                         "volumeMounts": [
@@ -764,6 +768,10 @@
                                             {
                                                 "containerPort": 8786,
                                                 "protocol": "TCP"
+                                            },
+                                            {
+                                                "containerPort": 8787,
+                                                "protocol": "TCP"
                                             }
                                         ],
                                         "resources": {
@@ -793,6 +801,12 @@
                                 "protocol": "TCP",
                                 "port": 8786,
                                 "targetPort": 8786
+                            },
+                            {
+                                "name": "8787-tcp",
+                                "protocol": "TCP",
+                                "port": 8787,
+                                "targetPort": 8787
                             }
                         ],
                         "selector": {
