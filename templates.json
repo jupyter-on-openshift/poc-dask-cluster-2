@@ -55,6 +55,11 @@
                     "required": false
                 },
                 {
+                    "name": "JUPYTERHUB_CONFIG",
+                    "value": "",
+                    "required": false
+                },
+                {
                     "name": "DATABASE_PASSWORD",
                     "generate": "expression",
                     "from": "[a-zA-Z0-9]{16}",
