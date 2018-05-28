@@ -1,6 +1,6 @@
 import os
 
-c.JupyterHub.template_paths = [ '/opt/app-root/src/templates' ]
+c.JupyterHub.template_paths = [ '/opt/app-root/src/override-templates' ]
 
 c.KubeSpawner.environment = dict(
     DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS']
