@@ -1,7 +1,9 @@
 import os
 
+from jupyterhub.app import DATA_FILES_PATH
+
 c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
-        os.path.join(c.JupyterHub.data_files_path, 'templates')]
+        os.path.join(DATA_FILES_PATH, 'templates')]
 
 c.KubeSpawner.environment = dict(
     DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS']
