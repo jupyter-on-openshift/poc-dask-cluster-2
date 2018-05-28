@@ -35,7 +35,22 @@
                     "required": true
                 },
                 {
-                    "name": "JUPYTERHUB_CONFIG",
+                    "name": "OAUTH_SERVICE_TYPE",
+                    "value": "",
+                    "required": false
+                },
+                {
+                    "name": "OAUTH_CALLBACK_URL",
+                    "value": "",
+                    "required": false
+                },
+                {
+                    "name": "OAUTH_CLIENT_ID",
+                    "value": "",
+                    "required": false
+                },
+                {
+                    "name": "OAUTH_CLIENT_SECRET",
                     "value": "",
                     "required": false
                 },
@@ -304,6 +319,22 @@
                                             {
                                                 "name": "DASK_MONITOR_ADDRESS",
                                                 "value": "${APPLICATION_NAME}-scheduler:8787"
+                                            },
+                                            {
+                                                "name": "OAUTH_SERVICE_TYPE",
+                                                "value": "${OAUTH_SERVICE_TYPE}"
+                                            },
+                                            {
+                                                "name": "OAUTH_CALLBACK_URL",
+                                                "value": "${OAUTH_CALLBACK_URL}"
+                                            },
+                                            {
+                                                "name": "OAUTH_CLIENT_ID",
+                                                "value": "${OAUTH_CLIENT_ID}"
+                                            },
+                                            {
+                                                "name": "OAUTH_CLIENT_SECRET",
+                                                "value": "${OAUTH_CLIENT_SECRET}"
                                             }
                                         ],
                                         "volumeMounts": [
@@ -778,7 +809,13 @@
                                             "limits": {
                                                 "memory": "256Mi"
                                             }
-                                        }
+                                        },
+                                        "env": [
+                                            {
+                                                "name": "DASK_SCHEDULER_ARGS",
+                                                "value": "--bokeh-prefix /services/dask-monitor"
+                                            }
+                                        ]
                                     }
                                 ]
                             }
