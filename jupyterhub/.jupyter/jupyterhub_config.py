@@ -9,7 +9,7 @@ c.KubeSpawner.environment = dict(
     DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS']
 )
 
-c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
+#c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
 
 """
 c.ProfilesSpawner.profiles = [
