@@ -9,6 +9,23 @@ c.KubeSpawner.environment = dict(
     DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS']
 )
 
+c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
+
+c.ProfilesSpawner.profiles = [
+    (
+        "Dask Cluster Demo",
+        'dask-cluster-demo',
+        'kubespawner.KubeSpawner',
+        dict(singleuser_image_spec=os.environ['JUPYTERHUB_NOTEBOOK_IMAGE')
+    ),
+    (
+        "Minimal Notebook",
+        's2i-minimal-notebook',
+        'kubespawner.KubeSpawner',
+        dict(singleuser_image_spec='s2i-minimal-notebook:3.5')
+    )
+]
+
 c.JupyterHub.services = [
     {
 	'name': 'dask-monitor',
