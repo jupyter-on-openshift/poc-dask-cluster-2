@@ -11,6 +11,7 @@ c.KubeSpawner.environment = dict(
 
 c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
 
+"""
 c.ProfilesSpawner.profiles = [
     (
         "Dask Cluster Demo",
@@ -25,6 +26,7 @@ c.ProfilesSpawner.profiles = [
         dict(singleuser_image_spec='s2i-minimal-notebook:3.5')
     )
 ]
+"""
 
 c.JupyterHub.services = [
     {
