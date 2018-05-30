@@ -9,23 +9,6 @@ c.KubeSpawner.environment = dict(
     DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS']
 )
 
-c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
-
-c.ProfilesSpawner.profiles = [
-    (
-        "Dask Cluster Demo",
-        'dask-cluster-demo',
-        'kubespawner.KubeSpawner',
-        dict(singleuser_image_spec=os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'])
-    ),
-    (
-        "Minimal Notebook",
-        's2i-minimal-notebook',
-        'kubespawner.KubeSpawner',
-        dict(singleuser_image_spec='s2i-minimal-notebook:3.5')
-    )
-]
-
 c.JupyterHub.services = [
     {
 	'name': 'dask-monitor',
@@ -90,4 +73,96 @@ if enable_persistent_volumes:
 		}
 	    ]
 	}
+    ]
+
+c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
+
+c.ProfilesSpawner.profiles = []
+
+c.ProfilesSpawner.profiles.append(
+    (
+        "Dask Cluster Demo",
+        'dask-cluster-demo',
+        'kubespawner.KubeSpawner',
+        dict(
+            singleuser_image_spec=os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
+            environment = dict(DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS'])
+        )
+    )
+)
+
+if enable_persistent_volumes:
+    c.ProfilesSpawner.profiles[-1][3]['volume_mounts'] = [
+            {
+                'name': 'data',
+                'mountPath': '/opt/app-root',
+                'subPath': 'dask-cluster-demo'
+            }
+        ]
+
+    c.ProfilesSpawner.profiles[-1][3]['singleuser_init_containers'] = [
+        {
+            'name': 'setup-volume',
+            'image': os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
+            'command': [
+                'setup-volume.sh',
+                '/opt/app-root',
+                '/mnt/dask-cluster-demo'
+            ],
+            'resources': {
+                'limits': {
+                    'memory': '256Mi'
+                }
+            },
+            'volumeMounts': [
+                {
+                    'name': 'data',
+                    'mountPath': '/mnt'
+                }
+            ]
+        }
+    ]
+
+c.ProfilesSpawner.profiles.append(
+    (
+        "Minimal Notebook",
+        's2i-minimal-notebook',
+        'kubespawner.KubeSpawner',
+        dict(
+            singleuser_image_spec='s2i-minimal-notebook:3.5',
+            environment = dict(DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS'])
+        )
+    )
+)
+
+if enable_persistent_volumes:
+    c.ProfilesSpawner.profiles[-1][3]['volume_mounts'] = [
+            {
+                'name': 'data',
+                'mountPath': '/opt/app-root',
+                'subPath': 's2i-minimal-notebook'
+            }
+        ]
+
+    c.ProfilesSpawner.profiles[-1][3]['singleuser_init_containers'] = [
+        {
+            'name': 'setup-volume',
+            'image': os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
+            'command': [
+                'setup-volume.sh',
+                '/opt/app-root',
+                '/mnt/s2i-minimal-notebook'
+            ],
+            'resources': {
+                'limits': {
+                    'memory': '256Mi'
+                }
+            },
+            'volumeMounts': [
+                {
+                    'name': 'data',
+                    'mountPath': '/mnt'
+                }
+            ]
+        }
     ]
