@@ -75,6 +75,7 @@ if enable_persistent_volumes:
 	}
     ]
 
+"""
 c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
 
 c.ProfilesSpawner.profiles = []
@@ -166,3 +167,4 @@ if enable_persistent_volumes:
             ]
         }
     ]
+"""
