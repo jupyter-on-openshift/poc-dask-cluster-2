@@ -149,7 +149,7 @@ if enable_persistent_volumes:
     c.ProfilesSpawner.profiles[-1][3]['singleuser_init_containers'] = [
         {
             'name': 'setup-volume',
-            'image': os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
+            'image': 's2i-minimal-notebook:3.5',
             'command': [
                 'setup-volume.sh',
                 '/opt/app-root/src',
