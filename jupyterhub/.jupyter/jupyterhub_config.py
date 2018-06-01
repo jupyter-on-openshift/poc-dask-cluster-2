@@ -35,7 +35,6 @@ if enable_persistent_volumes:
 
     c.KubeSpawner.user_storage_capacity = '1Gi'
 
-    """
     c.KubeSpawner.volumes = [
 	{
 	    'name': 'data',
@@ -45,6 +44,7 @@ if enable_persistent_volumes:
 	}
     ]
 
+    """
     c.KubeSpawner.volume_mounts = [
 	{
 	    'name': 'data',
