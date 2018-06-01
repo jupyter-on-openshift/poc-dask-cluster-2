@@ -141,7 +141,7 @@ if enable_persistent_volumes:
     c.ProfilesSpawner.profiles[-1][3]['volume_mounts'] = [
             {
                 'name': 'data',
-                'mountPath': '/opt/app-root/src',
+                'mountPath': '/opt/app-root',
                 'subPath': 's2i-minimal-notebook'
             }
         ]
@@ -152,7 +152,7 @@ if enable_persistent_volumes:
             'image': 's2i-minimal-notebook:3.5',
             'command': [
                 'setup-volume.sh',
-                '/opt/app-root/src',
+                '/opt/app-root',
                 '/mnt/s2i-minimal-notebook'
             ],
             'resources': {
