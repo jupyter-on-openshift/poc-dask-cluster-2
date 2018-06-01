@@ -97,7 +97,7 @@ if enable_persistent_volumes:
     c.ProfilesSpawner.profiles[-1][3]['volume_mounts'] = [
             {
                 'name': 'data',
-                'mountPath': '/opt/app-root',
+                'mountPath': '/opt/app-root/src',
                 'subPath': 'dask-cluster-demo'
             }
         ]
@@ -108,7 +108,7 @@ if enable_persistent_volumes:
             'image': os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
             'command': [
                 'setup-volume.sh',
-                '/opt/app-root',
+                '/opt/app-root/src',
                 '/mnt/dask-cluster-demo'
             ],
             'resources': {
@@ -141,7 +141,7 @@ if enable_persistent_volumes:
     c.ProfilesSpawner.profiles[-1][3]['volume_mounts'] = [
             {
                 'name': 'data',
-                'mountPath': '/opt/app-root',
+                'mountPath': '/opt/app-root/src',
                 'subPath': 's2i-minimal-notebook'
             }
         ]
@@ -152,7 +152,7 @@ if enable_persistent_volumes:
             'image': os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
             'command': [
                 'setup-volume.sh',
-                '/opt/app-root',
+                '/opt/app-root/src',
                 '/mnt/s2i-minimal-notebook'
             ],
             'resources': {
