@@ -35,6 +35,7 @@ if enable_persistent_volumes:
 
     c.KubeSpawner.user_storage_capacity = '1Gi'
 
+    """
     c.KubeSpawner.volumes = [
 	{
 	    'name': 'data',
@@ -74,8 +75,8 @@ if enable_persistent_volumes:
 	    ]
 	}
     ]
+    """
 
-"""
 c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
 
 c.ProfilesSpawner.profiles = []
@@ -167,4 +168,3 @@ if enable_persistent_volumes:
             ]
         }
     ]
-"""
