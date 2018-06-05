@@ -5,9 +5,11 @@ from jupyterhub.app import DATA_FILES_PATH
 c.JupyterHub.template_paths = ['/opt/app-root/src/templates',
         os.path.join(DATA_FILES_PATH, 'templates')]
 
+"""
 c.KubeSpawner.environment = dict(
     DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS']
 )
+"""
 
 c.JupyterHub.services = [
     {
@@ -88,7 +90,9 @@ c.ProfilesSpawner.profiles.append(
         'kubespawner.KubeSpawner',
         dict(
             singleuser_image_spec=os.environ['JUPYTERHUB_NOTEBOOK_IMAGE'],
-            environment = dict(DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS'])
+            environment =
+            dict(DASK_SCHEDULER_ADDRESS=os.environ['DASK_SCHEDULER_ADDRESS'],
+                 NOTEBOOK_ARGS='--NotebookApp.default_url=/tree/dask-cluster-demo')
         )
     )
 )
@@ -98,7 +102,7 @@ if enable_persistent_volumes:
             {
                 'name': 'data',
                 'mountPath': '/opt/app-root/src',
-                'subPath': 'dask-cluster-demo'
+                'subPath': 'workspaces'
             }
         ]
 
@@ -109,7 +113,7 @@ if enable_persistent_volumes:
             'command': [
                 'setup-volume.sh',
                 '/opt/app-root/src',
-                '/mnt/dask-cluster-demo'
+                '/mnt/workspaces/dask-cluster-demo'
             ],
             'resources': {
                 'limits': {
@@ -168,3 +172,5 @@ if enable_persistent_volumes:
             ]
         }
     ]
+
+print(c.ProfilesSpawner.profiles)
